@@ -1,0 +1,12 @@
+:root {
+    --warna-hijau: #2E5A3B;
+    --warna-coklat: #D6C7B0;
+    --warna-hitam: #1C1C1C;
+
+body {
+	background-color: var(--warna-coklat);
+}
+
+#accordionSidebar {
+	background-color: var(--warna-hijau);
+}
