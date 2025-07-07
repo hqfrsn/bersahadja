@@ -1,22 +1,32 @@
 <style>
 .cart-container {
   position: fixed;
-  top: 120px; /* Sesuaikan tinggi dari atas */
-  right: 20px; /* Menempel ke ujung kanan */
-  width: 320px;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 350px;
   background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid #ddd;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
   padding: 20px;
-  z-index: 10000; /* Pastikan muncul di atas elemen lain */
-}
-
-.cart-content {
-  max-height: 300px; /* Atur sesuai kebutuhan */
   overflow-y: auto;
-  transition: max-height 0.3s ease;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
 }
 
+.cart-container.show {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
 
 .cart-items {
   display: flex;
@@ -63,83 +73,11 @@
   background: #23233C;
   color: #fff;
 }
-/* Style untuk header keranjang */
-.cart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 10px;
-}
 
-.cart-header span {
-  font-size: 18px;
-  font-weight: bold;
-  color: #23233C;
-}
-
-.cart-header ion-icon {
-  font-size: 24px;
-  transition: transform 0.3s ease;
-}
-
-/* Saat konten keranjang disembunyikan */
-.cart-content {
-  transition: max-height 0.3s ease;
-  overflow: hidden;
-}
-
-/* Jika ingin animasi lebih smooth, Anda bisa mengatur max-height ketika expanded */
-.cart-container.expanded .cart-content {
-  max-height: 500px; /* sesuaikan dengan tinggi konten maksimal */
-}
-
-.cart-container.collapsed .cart-content {
-  max-height: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.cart-container.expanded .cart-content {
-  max-height: 500px; /* atau sesuai tinggi yang kamu mau */
-  overflow-y: auto;
-}
-
-.cart-container.collapsed .cart-content {
-  max-height: 0;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-}
-
-.cart-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.cart-content::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 10px;
-}
-
-/* CART RESPONSIVE */
-@media (max-width: 778px) {
-  .cart-container {
-    right: 10px;
-    left: 10px;
-    width: auto;
-    top: 120px;
-    padding: 15px;
-  }
-}
-
+/* Responsive */
 @media (max-width: 576px) {
   .cart-container {
-    top: 110px;
-    left: 10px;
-    right: 10px;
-    width: auto;
+    width: 100%;
     padding: 15px;
   }
 
@@ -156,85 +94,78 @@
     padding: 8px;
   }
 }
-
-
-
 </style>
- <?php if (!empty($cart)) : ?>
-            <div class="cart-container">
 
-                <div class="cart-header" onclick="toggleCart()">
-                    <span>Keranjang</span>
-                    <ion-icon id="toggleIcon" name="chevron-up-outline"></ion-icon>
-                </div>
+<!-- Tombol toggle keranjang -->
+<button id="cartToggleBtn" class="btn btn-light"
+  style="position: fixed; top: 110px; right: 20px; z-index: 10001;">
+  <ion-icon name="cart-outline" style="font-size: 29px; margin-top: 5px;"></ion-icon>
+</button>
 
-                <div class="cart-content">
-                    <div class="cart-items">
-                        <?php foreach ($cart as $item) : ?>
-                            <div class="cart-item d-flex justify-content-between align-items-center mb-2">
-                                <div>
-                                    <h6 class="produk-name"><?= $item['nama_produk'] ?></h6>
-                                    <p class="produk-price-qty">Rp. <?= number_format($item['harga'], 0, ',', '.') ?>/hari - Qty: <?= $item['qty'] ?></p>
-                                    <p class="produk-subtotal">Sub Total: Rp. <?= number_format($item['subtotal'], 0, ',', '.') ?></p>
-                                </div>
-                                <a href="<?= base_url('menu/keranjang_delete/' . $item['id_produk']) ?>" class="trash-icon">
-                                    <ion-icon name="trash-sharp"></ion-icon>
-                                </a>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="cart-total">
-                        <p>Total: Rp <?= number_format($total, 0, ',', '.') ?></p>
-                        <button type="button" class="btn btn-primary btn-block" onclick="confirmBayar()">Book Now</button>
-                    </div>
-                </div>
+<div class="cart-container" id="cartDrawer">
+  <div class="cart-header">
+    <span>Keranjang</span>
+    <ion-icon name="close-outline" onclick="closeCart()" style="cursor: pointer;"></ion-icon>
+  </div>
+
+  <div class="cart-content">
+    <div class="cart-items">
+      <?php if (!empty($cart)) : ?>
+        <?php foreach ($cart as $item) : ?>
+          <div class="cart-item d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <h6 class="produk-name"><?= $item['nama_produk'] ?></h6>
+              <p class="produk-price-qty">Rp. <?= number_format($item['harga'], 0, ',', '.') ?>/hari - Qty: <?= $item['qty'] ?></p>
+              <p class="produk-subtotal">Sub Total: Rp. <?= number_format($item['subtotal'], 0, ',', '.') ?></p>
             </div>
-        <?php endif; ?>
+            <a href="<?= base_url('menu/keranjang_delete/' . $item['id_produk']) ?>" class="trash-icon">
+              <ion-icon name="trash-sharp"></ion-icon>
+            </a>
+          </div>
+        <?php endforeach; ?>
+      <?php else : ?>
+        <p class="text-muted text-center">Keranjang kosong</p>
+      <?php endif; ?>
+    </div>
 
-<script type="text/javascript">
-  if (window.innerWidth < 576) {
-  cartContainer.classList.remove('expanded');
-  cartContainer.classList.add('collapsed');
-}
+    <?php if (!empty($cart)) : ?>
+      <div class="cart-total">
+        <p>Total: Rp <?= number_format($total, 0, ',', '.') ?></p>
+        <button type="button" class="btn btn-primary btn-block" onclick="confirmBayar()">Book Now</button>
+      </div>
+    <?php endif; ?>
+  </div>
+</div>
 
-	function toggleCart() {
-			const cartContainer = document.querySelector('.cart-container');
-			const toggleIcon = document.getElementById('toggleIcon');
 
-			// Toggle kelas 'collapsed'
-			if (cartContainer.classList.contains('collapsed')) {
-				cartContainer.classList.remove('collapsed');
-				cartContainer.classList.add('expanded');
-				// Ganti ikon menjadi panah ke atas
-				toggleIcon.setAttribute('name', 'chevron-up-outline');
-			} else {
-				cartContainer.classList.remove('expanded');
-				cartContainer.classList.add('collapsed');
-				// Ganti ikon menjadi panah ke bawah
-				toggleIcon.setAttribute('name', 'chevron-down-outline');
-			}
-		}
+<script>
+    const cartToggleBtn = document.getElementById('cartToggleBtn');
+  const cartDrawer = document.getElementById('cartDrawer');
 
-		// Secara default, tampilkan keranjang dalam keadaan expanded.
-		document.addEventListener('DOMContentLoaded', function() {
-			const cartContainer = document.querySelector('.cart-container');
-			cartContainer.classList.add('expanded');
-		});
+  if (cartToggleBtn && cartDrawer) {
+    cartToggleBtn.addEventListener('click', () => {
+      cartDrawer.classList.add('show');
+      cartToggleBtn.style.display = 'none'; // SEMBUNYIKAN tombol saat dibuka
+    });
 
-		function confirmBayar() {
-			window.location.href = "<?= base_url('menu') ?>";
-		}
+    document.addEventListener('click', function (e) {
+      if (!cartDrawer.contains(e.target) && !cartToggleBtn.contains(e.target)) {
+        cartDrawer.classList.remove('show');
+        cartToggleBtn.style.display = 'block'; // MUNCULKAN kembali tombol
+      }
+    });
+  }
 
-		setTimeout(function() {
-			var errorAlert = document.getElementById('error-alert');
-			var successAlert = document.getElementById('success-alert');
+  function closeCart() {
+    cartDrawer.classList.remove('show');
+    cartToggleBtn.style.display = 'block'; // MUNCULKAN kembali tombol
+  }
 
-			if (errorAlert) errorAlert.style.display = 'none';
-			if (successAlert) successAlert.style.display = 'none';
-		}, 3000);
-
-		document.getElementById('redirect_url').value = window.location.href;
+  function confirmBayar() {
+    window.location.href = "<?= base_url('menu') ?>";
+  }
 </script>
+
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

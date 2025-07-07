@@ -108,11 +108,11 @@
 		<img src="<?= base_url('assets/foto/logo.png'); ?>" alt="Logo" style="height: 80px;">
 	</h4>
 	<ul class="nav flex-column">
-		<?php foreach ($kategori as $k): ?>
+		<?php foreach ($menu as $m): ?>
 			<li class="nav-item mb-2">
-				<a class="nav-link" href="<?= site_url('menu/kategori/' . $k['id_kategori']) ?>">
-					<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-					<?= $k['nama_kategori'] ?>
+				<a class="nav-link" href="<?= site_url('menu/menu/' . $m['id_menu']) ?>">
+					<img id="img-sidebar" src="<?= base_url('assets/foto/' .$m['gambar_menu']); ?>"><br>
+					<?= $m['nama_menu'] ?>
 				</a>
 			</li>
 		<?php endforeach; ?>

@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Produk</title>
+	<title>Kategori</title>
 
 	<!-- Custom fonts for this template -->
 	<link href="<?php echo base_url() ?>sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -21,7 +21,6 @@
 	<!-- Custom styles for this page -->
 	<link href="<?php echo base_url() ?>sbadmin2/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 	<link href="<?php echo base_url() ?>sbadmin2/toastr/flashdata.css" rel="stylesheet">
-	<link href="<?php echo base_url() ?>assets/css/styleA.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -62,63 +61,38 @@
 					</div>
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">Produk</h1>
+					<h1 class="h3 mb-2 text-gray-800">Menu</h1>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4 mt-3">
 						<div class="card-header d-flex">
-							<h6 class="font-weight-bold text-primary mt-2 col-10">Produk</h6>
+							<h6 class="m-0 font-weight-bold text-primary mt-2 col-10">Menu</h6>
 							<div class="col-2 mx-4">
-								<a href="<?= site_url('admin/produk/produk_add') ?>" class="btn btn-sm btn-primary"><i class="fas fa-solid fa-plus"></i> Produk</a>
+								<button class="btn btn-primary" onclick="openAddModal()">Tambah Menu</button>
 							</div>
 						</div>
-
 						<div class="card-body">
 							<div class="table-responsive">
-								<div class="card">
-									
-								</div>
-								<table class="table" id="dataTable" width="100%" cellspacing="0">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th>Gambar Produk</th>
-											<th>Nama Produk</th>
-											<th>Harga Produk</th>
-											<th>Kategori Produk</th>
-											<th>Kategori Menu</th>
-											<th>Status</th>
-											<th>Keterangan Produk</th>
+											<th>Menu</th>
+											<th>Gambar</th>
 											<th>Aksi</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php foreach ($produk as $p): ?>
+										<?php foreach ($menu as $m): ?>
 											<tr>
-												<td><?= $p['id_produk'] ?></td>
+												<td><?= $m['id_menu'] ?></td>
+												<td><?= $m['nama_menu'] ?></td>
 												<td>
-													<img src="<?php echo base_url('assets/foto/' . $p['gambar_produk']); ?>" width="100" />
+													<img src="<?php echo base_url('assets/foto/' . $m['gambar_menu']); ?>" width="100" />
 												</td>
-												<td><?= $p['nama_produk'] ?></td>
-												<td>Rp.<?= $p['harga_produk'] ?></td>
-												<td><?= $p['nama_kategori'] ?></td>
 												<td>
-												  <select class="form-select form-select-sm menu-select" data-id="<?= $p['id_produk'] ?>">
-												    <?php foreach ($list_menu as $menu): ?>
-												      <option value="<?= $menu['id_menu'] ?>" <?= $menu['nama_menu'] == $p['nama_menu'] ? 'selected' : '' ?>>
-												        <?= $menu['nama_menu'] ?>
-												      </option>
-												    <?php endforeach; ?>
-												  </select>
-												</td>
-												<td><?= $p['status_produk'] ?></td>
-												<td><?= $p['keterangan_produk'] ?></td>
-												<td class="d-flex">
-													<button class="btn btn-sm btn-primary mr-1" onclick="updateStatus(<?= $p['id_produk']; ?>, 'Tersedia')">Tersedia</button>
-													<button class="btn btn-sm btn-danger" onclick="updateStatus(<?= $p['id_produk']; ?>, 'Kosong')">Kosong</button>
-													<a href="<?= site_url('admin/produk/produk_edit/' . $p['id_produk']) ?>" class="btn btn-warning" style="margin-right: 10px; margin-left: 10px;"><i class="fas fa-regular fa-pen-to-square"></i></a>
-
-													<button class="btn btn-danger" onclick="confirmDelete('<?= $p['id_produk'] ?>')"><i class="fas fa-regular fa-trash-can"></i></button>
+													<button class="btn btn-warning" onclick="openEditModal(<?= $m['id_menu'] ?>)">Edit</button>
+													<button class="btn btn-danger" onclick="confirmDelete('<?= $m['id_menu'] ?>')"><i class="fas fa-regular fa-trash-can"></i></button>
 												</td>
 											</tr>
 										<?php endforeach; ?>
@@ -165,19 +139,38 @@
 	</a>
 
 	<script>
-		function confirmDelete(id) {
-			const deleteUrl = "<?= site_url('admin/produk/produk_delete/') ?>" + id;
-			$('#confirmDeleteBtn').attr('href', deleteUrl);
-			$('#deleteModal').modal('show');
+		function openAddModal() {
+			$.ajax({
+				url: "<?php echo site_url('admin/menu/get_menu_form'); ?>",
+				type: "GET",
+				success: function(response) {
+					$('#modalContainer').html(response);
+					$('#addMenuModal').modal('show');
+				},
+				error: function() {
+					alert('Gagal memuat form modal');
+				}
+			});
 		}
 
-		function updateStatus(id_produk, status) {
-			$.post("<?= site_url('admin/produk/update_status'); ?>", {
-				id: id_produk,
-				status: status
-			}, function(response) {
-				location.reload();
+		function openEditModal(id) {
+			$.ajax({
+				url: "<?php echo site_url('admin/menu/get_menu_form_update/'); ?>" + id,
+				type: "GET",
+				success: function(response) {
+					$('#modalContainer').html(response);
+					$('#editMenuModal').modal('show');
+				},
+				error: function() {
+					alert('Gagal memuat form modal');
+				}
 			});
+		}
+
+		function confirmDelete(id) {
+			const deleteUrl = "<?= site_url('menu/menu_delete/') ?>" + id;
+			$('#confirmDeleteBtn').attr('href', deleteUrl);
+			$('#deleteModal').modal('show');
 		}
 
 		setTimeout(function() {
@@ -191,35 +184,6 @@
 				successAlert.style.display = 'none';
 			}
 		}, 3000);
-
-		 document.querySelectorAll('.menu-select').forEach(function (select) {
-		  select.addEventListener('change', function () {
-		    const id_produk = this.getAttribute('data-id');
-		    const id_menu_baru = this.value;
-
-		    fetch("<?= base_url('Admin/produk/update_menu_produk') ?>", {
-		      method: 'POST',
-		      headers: {
-		        'Content-Type': 'application/x-www-form-urlencoded'
-		      },
-		      body: `id_produk=${id_produk}&id_menu=${id_menu_baru}`
-		    })
-		    .then(res => res.json()) // <-- PERUBAHAN di sini
-		    .then(response => {
-		      if (response.status === 'success') {
-		        this.style.border = '2px solid green';
-		        setTimeout(() => this.style.border = '', 1000);
-		      } else {
-		        alert('Gagal update menu');
-		      }
-		    })
-		    .catch(error => {
-		      console.error('Fetch error:', error);
-		      alert('Terjadi kesalahan saat menghubungi server.');
-		    });
-		  });
-		});
-
 	</script>
 
 	<!-- Bootstrap core JavaScript-->

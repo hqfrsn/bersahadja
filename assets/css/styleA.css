@@ -10,3 +10,61 @@ body {
 #accordionSidebar {
 	background-color: var(--warna-hijau);
 }
+
+.menu-select {
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  font-size: 14px;
+  color: #333;
+  transition: border 0.3s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 160px;
+}
+
+.menu-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.menu-select.success {
+  border: 2px solid #28a745 !important;
+}
+
+@media (max-width: 576px) {
+  .menu-select {
+    font-size: 13px;
+    max-width: 120px;
+  }
+
+@media (max-width: 768px) {
+  .table .btn {
+    padding: 4px 6px;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .table td .btn {
+    display: block; /* Supaya tombol tidak berjejal dalam 1 baris */
+    width: 100%;
+  }
+
+  .table td.d-flex {
+    flex-direction: column !important;
+    gap: 4px;
+  }
+
+  .btn i {
+    margin-right: 4px;
+  }
+
+  .card-header .btn {
+    font-size: 13px;
+    padding: 6px 10px;
+    width: 100%;
+  }
+}
+
+}

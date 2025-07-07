@@ -14,8 +14,8 @@ class Menu extends CI_Controller
 
 	public function index()
 	{
-		$data['menu'] = $this->Produk_model->get_all_produk();
-		$data['kategori'] = $this->Kategori_model->get_all_kategori();
+		$data['produk'] = $this->Produk_model->get_all_produk();
+		$data['menu'] = $this->Menu_model->get_all_menu();
 
 		$data['cart'] = $this->session->userdata('cart') ?? [];
     	$data['total'] = $this->calculate_total();
@@ -23,21 +23,20 @@ class Menu extends CI_Controller
 		$this->load->view('member/menu_view', $data);
 	}
 
-	public function kategori($id_kategori)
+	public function menu($id_menu)
 	{
-		$data['menu'] = $this->Menu_model->get_menu_by_kategori($id_kategori);
-		$data['kategori'] = $this->Kategori_model->get_all_kategori();
+		$data['produk'] = $this->Menu_model->get_menu_by_menu($id_menu);
+		$data['menu'] = $this->Menu_model->get_all_menu();
+
 		$data['cart'] = $this->session->userdata('cart') ?? [];
 		$data['total'] = $this->calculate_total();
-		$data['current_page'] = 'menu';
-		$data['navbar_style'] = 'navbar-light';
 
 		$this->load->view('member/menu_view', $data);
 	}
 
 	public function detailmenu($id)
 	{
-		$data['detail_menu'] = $this->Menu_model->get_menu_by_id($id);
+		$data['detail_produk'] = $this->Menu_model->get_menu_by_menu($id);
 		$data['menu'] = $this->Menu_model->get_all_produk();
 
 		$data['cart'] = $this->session->userdata('cart') ?? [];

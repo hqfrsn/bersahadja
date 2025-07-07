@@ -74,12 +74,24 @@
 
 						<!-- Kategori -->
 						<div class="mb-3">
-							<label for="id_kategori" class="form-label">Kategori Console</label>
+							<label for="id_kategori" class="form-label">Kategori Produk</label>
 							<select name="id_kategori" class="form-control" id="id_kategori" required>
 								<option value="">Pilih Kategori</option>
 								<?php foreach ($kategori as $k): ?>
 									<option value="<?= $k['id_kategori']; ?>" <?= $produk['id_kategori'] == $k['id_kategori'] ? 'selected' : ''; ?>>
 										<?= $k['nama_kategori']; ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label for="id_menu" class="form-label">Menu</label>
+							<select name="id_menu" class="form-control" id="id_menu" required>
+								<option value="">Pilih Menu</option>
+								<?php foreach ($menu as $m): ?>
+									<option value="<?= $m['id_menu']; ?>" <?= $produk['id_menu'] == $m['id_menu'] ? 'selected' : ''; ?>>
+										<?= $m['nama_menu']; ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
