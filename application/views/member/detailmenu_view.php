@@ -7,60 +7,41 @@
 	<title>Detail Menu</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="<?= base_url('assets/css/menu.css') ?>">
 </head>
 
 <body>
+
 	<!-- Header -->
 	<?php $this->load->view('member/template/header'); ?>
-	<!-- End of Header -->
-
-	<div id="modalContainer"></div>
-
-	<!-- Cart -->
-	<?php $this->load->view('member/template/cart'); ?>
-	<!-- End of Cart -->
+	<!-- End Header -->
 
 	<!-- Container -->
 	<div class="container py-5">
-		<?php foreach ($detail_produk as $dp): ?>
+		<?php foreach ($detail_menu as $dm): ?>
 			<div class="bg-white rounded shadow p-4">
 				<div class="row align-items-center g-4">
 					<!-- Gambar Produk -->
 					<div class="col-12 col-md-5 text-center">
-						<img src="<?= base_url('assets/foto/' . $dp['gambar_produk']); ?>" class="img-fluid" alt="<?= $dp['nama_produk'] ?>">
+						<img src="<?= base_url('assets/foto/' . $dm['gambar_produk']); ?>" class="img-fluid" alt="<?= $dm['nama_produk'] ?>">
 					</div>
 
 					<!-- Detail Produk -->
 					<div class="col-12 col-md-7">
 
-						<h2 class="fw-bold"><?= $dp['nama_produk'] ?></h2>
-						<p class="text-muted mb-2">Kategori: <?= $dp['nama_kategori'] ?></p>
-						<p class="lead"><?= $dp['keterangan_produk'] ?></p>
+						<h2 class="fw-bold"><?= $dm['nama_produk'] ?></h2>
+						<p class="text-muted mb-2">Kategori: <?= $dm['nama_kategori'] ?></p>
+						<p class="lead"><?= $dm['keterangan_produk'] ?></p>
 
+						<!-- Tombol -->
+						<div class="text-center mt-4">
+							<a href="<?= base_url('member/produk/transaksi_add/' . $dm['id_produk']) ?>" class="btn btn-pesan">
+								Pesan Sekarang
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
-
-			<!-- Tombol -->
-			<div class="row">
-				<div class="col-6 mt-3">
-					<a href="<?= base_url('member/produk/transaksi_add/' . $dp['id_produk']) ?>" class="btn btn-pesan w-100">
-						Pesan Sekarang
-					</a>
-				</div>
-				<div class="col-6 mt-3">
-					<form method="post" action="<?= base_url('menu/cart_add'); ?>">
-						<input type="hidden" name="id_produk" value="<?= $dp['id_produk'] ?>">
-						<input type="hidden" name="qty" value="1">
-						<input type="hidden" name="id_kategori" value="<?= $dp['id_kategori'] ?>">
-						<input type="hidden" name="redirect_url" id="redirect_url">
-						<button type="submit" class="btn btn-outline-success w-100">Pesan Sekarang</button>
-					</form>
-				</div>
-			</div>
-
 		<?php endforeach; ?>
 	</div>
 	<!-- End Container -->

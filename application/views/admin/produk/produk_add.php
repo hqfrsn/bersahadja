@@ -69,15 +69,6 @@
 							</select>
 						</div>
 
-						<div class="form-group">
-							<label>Menu</label>
-							<select name="id_menu" class="form-control">
-								<?php foreach ($menu as $m): ?>
-									<option value="<?= $m['id_menu']; ?>"><?= $m['nama_menu']; ?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
-
 						<!-- Harga produk -->
 						<div class="mb-3">
 							<label for="harga_produk" class="form-label">Harga Produk</label>

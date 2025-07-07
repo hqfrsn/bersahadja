@@ -40,13 +40,6 @@
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link" href="<?php echo site_url('admin/menu') ?>">
-				<i class="fa-solid fa-list"></i>
-				<span>Menu</span>
-			</a>
-		</li>
-
-		<li class="nav-item">
 			<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSewa"
 				aria-expanded="true" aria-controls="collapseSewa">
 				<i class="fas fa-shopping-cart"></i>

@@ -9,14 +9,12 @@ class Produk extends CI_Controller
 		parent::__construct();
 		$this->load->model('Kategori_model');
 		$this->load->model('Produk_model');
-		$this->load->model('Menu_model');
 		$this->load->library('form_validation');
 	}
 
 	public function index()
 	{
 		$data['produk'] = $this->Produk_model->get_all_produk();
-		$data['list_menu'] = $this->Menu_model->get_all_menu();
 
 		$this->load->view('admin/produk/produk_view', $data);
 	}
@@ -24,7 +22,6 @@ class Produk extends CI_Controller
 	public function produk_add()
 	{
 		$data['kategori'] = $this->Kategori_model->get_all_kategori();
-		$data['menu'] = $this->Menu_model->get_all_menu();
 
 		$this->load->view('admin/produk/produk_add', $data);
 	}
@@ -33,21 +30,18 @@ class Produk extends CI_Controller
 	{
 		$this->form_validation->set_rules('nama_produk', 'Nama Produk', 'required');
 		$this->form_validation->set_rules('id_kategori', 'Kategori Produk', 'required');
-		$this->form_validation->set_rules('id_menu', 'Menu Produk', 'required');
 		$this->form_validation->set_rules('harga_produk', 'Harga Produk', 'required');
 		$this->form_validation->set_rules('gambar_produk', 'Gambar Produk', 'required');
 		$this->form_validation->set_rules('keterangan_produk', 'Keterangan Produk', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$data['kategori'] = $this->Kategori_model->get_all_kategori();
-			$data['menu'] = $this->Menu_model->get_all_menu();
 
 			$this->load->view('admin/produk/produk_add', $data);
 		} else {
 			$data = [
 				'nama_produk' => $this->input->post('nama_produk'),
 				'id_kategori' => $this->input->post('id_kategori'),
-				'id_menu' => $this->input->post('id_menu'),
 				'harga_produk' => $this->input->post('harga_produk'),
 				'gambar_produk' => $this->input->post('gambar_produk'),
 				'keterangan_produk' => $this->input->post('keterangan_produk')
@@ -62,7 +56,6 @@ class Produk extends CI_Controller
 	{
 		$data['produk'] = $this->Produk_model->get_produk_by_id($id);
     	$data['kategori'] = $this->Kategori_model->get_all_kategori();
-    	$data['menu'] = $this->Menu_model->get_all_menu();
 
 		$this->load->view('admin/produk/produk_edit', $data);
 	}
@@ -71,7 +64,6 @@ class Produk extends CI_Controller
 	{
 		$this->form_validation->set_rules('nama_produk', 'Nama Produk', 'required');
 		$this->form_validation->set_rules('id_kategori', 'Kategori Produk', 'required');
-		$this->form_validation->set_rules('id_menu', 'Menu Produk', 'required');
 		$this->form_validation->set_rules('harga_produk', 'Harga Produk', 'required');
 		$this->form_validation->set_rules('gambar_produk', 'Gambar Produk', 'required');
 		$this->form_validation->set_rules('keterangan_produk', 'Keterangan Produk', 'required');
@@ -80,14 +72,12 @@ class Produk extends CI_Controller
 		if ($this->form_validation->run() == FALSE) {
 			$data['produk'] = $this->Produk_model->get_produk_by_id($id);
 			$data['kategori'] = $this->Kategori_model->get_all_kategori();
-			$data['menu'] = $this->Menu_model->get_all_menu();
 
 			$this->load->view('admin/produk/produk_edit', $data);
 		} else {
 			$data = [
 				'nama_produk' => $this->input->post('nama_produk'),
 				'id_kategori' => $this->input->post('id_kategori'),
-				'id_menu' => $this->input->post('id_menu'),
 				'harga_produk' => $this->input->post('harga_produk'),
 				'gambar_produk' => $this->input->post('gambar_produk'),
 				'keterangan_produk' => $this->input->post('keterangan_produk')
@@ -113,22 +103,4 @@ class Produk extends CI_Controller
 		$this->Produk_model->update_status($id_produk, $status);
 		echo json_encode(['success' => true]);
 	}
-
-	public function update_menu_produk()
-	{
-	    $id_produk = $this->input->post('id_produk');
-	    $id_menu = $this->input->post('id_menu');
-
-	    if (!$id_produk || !$id_menu) {
-	        echo json_encode(['status' => 'error']);
-	        return;
-	    }
-
-	    $this->db->where('id_produk', $id_produk);
-	    $update = $this->db->update('produk', ['id_menu' => $id_menu]);
-
-	    echo json_encode(['status' => $update ? 'success' : 'error']);
-	}
-
-
 }

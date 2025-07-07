@@ -69,7 +69,7 @@
 						<div class="card-header d-flex">
 							<h6 class="font-weight-bold text-primary mt-2 col-10">Produk</h6>
 							<div class="col-2 mx-4">
-								<a href="<?= site_url('admin/produk/produk_add') ?>" class="btn btn-sm btn-primary"><i class="fas fa-solid fa-plus"></i> Produk</a>
+								<a href="<?= site_url('admin/produk/produk_add') ?>" class="btn btn-primary"><i class="fas fa-solid fa-plus"></i> Produk</a>
 							</div>
 						</div>
 
@@ -85,8 +85,7 @@
 											<th>Gambar Produk</th>
 											<th>Nama Produk</th>
 											<th>Harga Produk</th>
-											<th>Kategori Produk</th>
-											<th>Kategori Menu</th>
+											<th>Kategori</th>
 											<th>Status</th>
 											<th>Keterangan Produk</th>
 											<th>Aksi</th>
@@ -102,15 +101,6 @@
 												<td><?= $p['nama_produk'] ?></td>
 												<td>Rp.<?= $p['harga_produk'] ?></td>
 												<td><?= $p['nama_kategori'] ?></td>
-												<td>
-												  <select class="form-select form-select-sm menu-select" data-id="<?= $p['id_produk'] ?>">
-												    <?php foreach ($list_menu as $menu): ?>
-												      <option value="<?= $menu['id_menu'] ?>" <?= $menu['nama_menu'] == $p['nama_menu'] ? 'selected' : '' ?>>
-												        <?= $menu['nama_menu'] ?>
-												      </option>
-												    <?php endforeach; ?>
-												  </select>
-												</td>
 												<td><?= $p['status_produk'] ?></td>
 												<td><?= $p['keterangan_produk'] ?></td>
 												<td class="d-flex">
@@ -191,35 +181,6 @@
 				successAlert.style.display = 'none';
 			}
 		}, 3000);
-
-		 document.querySelectorAll('.menu-select').forEach(function (select) {
-		  select.addEventListener('change', function () {
-		    const id_produk = this.getAttribute('data-id');
-		    const id_menu_baru = this.value;
-
-		    fetch("<?= base_url('Admin/produk/update_menu_produk') ?>", {
-		      method: 'POST',
-		      headers: {
-		        'Content-Type': 'application/x-www-form-urlencoded'
-		      },
-		      body: `id_produk=${id_produk}&id_menu=${id_menu_baru}`
-		    })
-		    .then(res => res.json()) // <-- PERUBAHAN di sini
-		    .then(response => {
-		      if (response.status === 'success') {
-		        this.style.border = '2px solid green';
-		        setTimeout(() => this.style.border = '', 1000);
-		      } else {
-		        alert('Gagal update menu');
-		      }
-		    })
-		    .catch(error => {
-		      console.error('Fetch error:', error);
-		      alert('Terjadi kesalahan saat menghubungi server.');
-		    });
-		  });
-		});
-
 	</script>
 
 	<!-- Bootstrap core JavaScript-->

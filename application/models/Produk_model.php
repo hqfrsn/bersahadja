@@ -6,20 +6,18 @@ class Produk_model extends CI_Model
 
 	public function get_all_produk()
 	{
-		$this->db->select('produk.*, kategori.nama_kategori, menu.nama_menu');
+		$this->db->select('produk.*, kategori.nama_kategori');
 		$this->db->from('produk');
 		$this->db->join('kategori', 'produk.id_kategori = kategori.id_kategori', 'left');
-		$this->db->join('menu', 'produk.id_menu = menu.id_menu', 'left');
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
 	public function get_produk_by_id($id)
 	{
-	    $this->db->select('produk.*, kategori.nama_kategori, menu.nama_menu');
+	    $this->db->select('produk.*, kategori.nama_kategori');
 	    $this->db->from('produk');
 	    $this->db->join('kategori', 'produk.id_kategori = kategori.id_kategori', 'left');
-	    $this->db->join('menu', 'produk.id_menu = menu.id_menu', 'left');
 	    $this->db->where('produk.id_produk', $id);
 	    $query = $this->db->get();
 	    return $query->row_array();
@@ -64,17 +62,21 @@ class Produk_model extends CI_Model
 		return $query->num_rows() > 0;
 	}
 
-	public function menu_exists($menu_id)
-	{
-		$this->db->where('id_menu', $menu_id);
-		$query = $this->db->get('produk');
-		return $query->num_rows() > 0;
-	}
-
 	public function update_status($id_produk, $status)
     {
         $this->db->set('status_produk', $status);
         $this->db->where('id_produk', $id_produk);
         $this->db->update('produk');
     }
+
+	function get_best_seller()
+{
+    $this->db->select('produk.*, kategori.nama_kategori');
+    $this->db->from('produk');
+    $this->db->join('kategori', 'produk.id_kategori = kategori.id_kategori', 'left');
+    $this->db->where('produk.best_seller', 1); // filter best seller DI SINI
+    $query = $this->db->get();	
+    return $query->result_array();
+}
+
 }
