@@ -9,6 +9,7 @@ class Produk extends CI_Controller
 		parent::__construct();
 		$this->load->model('Kategori_model');
 		$this->load->model('Produk_model');
+		$this->load->model('Menu_model');
 		$this->load->library('form_validation');
 	}
 
@@ -103,4 +104,5 @@ class Produk extends CI_Controller
 		$this->Produk_model->update_status($id_produk, $status);
 		echo json_encode(['success' => true]);
 	}
+
 }

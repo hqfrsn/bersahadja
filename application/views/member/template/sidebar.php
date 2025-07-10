@@ -28,6 +28,7 @@
 		text-align: center;
 		padding: 10px 0;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+		display: block;
 	}
 
 	#sidebar .nav-link:hover {
@@ -58,7 +59,6 @@
 		width: 0px;
 		background: transparent;
 	}
-
 	#sidebar {
 		scrollbar-width: none;
 		-ms-overflow-style: none;
@@ -88,82 +88,41 @@
 		#sidebar {
 			transform: translateX(-100%);
 		}
-
 		#sidebar.active {
 			transform: translateX(0);
 		}
-
 		#sidebarToggle {
 			display: block;
 		}
-
 		.main-content {
 			margin-left: 0;
 		}
 	}
 </style>
 
+<!-- Tombol Toggle Sidebar untuk Mobile -->
+<button id="sidebarToggle">☰</button>
+
+<!-- Sidebar -->
 <nav id="sidebar">
 	<h4 class="text-center mb-4 d-flex align-items-center justify-content-center">
 		<img src="<?= base_url('assets/foto/logo.png'); ?>" alt="Logo" style="height: 80px;">
 	</h4>
 	<ul class="nav flex-column">
-		<?php foreach ($menu as $m): ?>
+		<?php foreach ($kategori as $k): ?>
 			<li class="nav-item mb-2">
-				<a class="nav-link" href="<?= site_url('menu/menu/' . $m['id_menu']) ?>">
-					<img id="img-sidebar" src="<?= base_url('assets/foto/' .$m['gambar_menu']); ?>"><br>
-					<?= $m['nama_menu'] ?>
+				<a class="nav-link" href="<?= site_url('menu/kategori/' . $k['id_kategori']) ?>">
+					<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
+					<?= $k['nama_kategori'] ?>
 				</a>
 			</li>
 		<?php endforeach; ?>
-
-		<li class="nav-item mb-2">
-			<a class="nav-link" href="<?= base_url('menu') ?>">
-				<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-				Makanan
-			</a>
-		</li>
-		<li class="nav-item mb-2">
-			<a class="nav-link" href="<?= base_url('menu') ?>">
-				<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-				Makanan
-			</a>
-		</li>
-		<li class="nav-item mb-2">
-			<a class="nav-link" href="<?= base_url('menu') ?>">
-				<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-				Makanan
-			</a>
-		</li>
-		<li class="nav-item mb-2">
-			<a class="nav-link" href="<?= base_url('menu') ?>">
-				<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-				Makanan
-			</a>
-		</li>
-		<li class="nav-item mb-2">
-			<a class="nav-link" href="<?= base_url('menu') ?>">
-				<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-				Makanan
-			</a>
-		</li>
-		<li class="nav-item mb-2">
-			<a class="nav-link" href="<?= base_url('menu') ?>">
-				<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-				Makanan
-			</a>
-		</li>
-		<li class="nav-item mb-2">
-			<a class="nav-link" href="<?= base_url('menu') ?>">
-				<img id="img-sidebar" src="<?= base_url('assets/foto/a.jpg'); ?>"><br>
-				Makanan
-			</a>
-		</li>
 	</ul>
 </nav>
 
+<!-- Script Toggle Sidebar -->
 <script>
-	document.getElementById('sidebarToggle').addEventListener('click', function() {
+	document.getElementById('sidebarToggle').addEventListener('click', function () {
 		document.getElementById('sidebar').classList.toggle('active');
 	});
 </script>

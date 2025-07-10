@@ -131,7 +131,7 @@
     <?php if (!empty($cart)) : ?>
       <div class="cart-total">
         <p>Total: Rp <?= number_format($total, 0, ',', '.') ?></p>
-        <button type="button" class="btn btn-primary btn-block" onclick="confirmBayar()">Book Now</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="confirmBayar()">Bayar</button>
       </div>
     <?php endif; ?>
   </div>
@@ -145,28 +145,29 @@
   if (cartToggleBtn && cartDrawer) {
     cartToggleBtn.addEventListener('click', () => {
       cartDrawer.classList.add('show');
-      cartToggleBtn.style.display = 'none'; // SEMBUNYIKAN tombol saat dibuka
+      cartToggleBtn.style.display = 'none';
     });
 
     document.addEventListener('click', function (e) {
       if (!cartDrawer.contains(e.target) && !cartToggleBtn.contains(e.target)) {
         cartDrawer.classList.remove('show');
-        cartToggleBtn.style.display = 'block'; // MUNCULKAN kembali tombol
+        cartToggleBtn.style.display = 'block';
       }
     });
   }
 
   function closeCart() {
     cartDrawer.classList.remove('show');
-    cartToggleBtn.style.display = 'block'; // MUNCULKAN kembali tombol
+    cartToggleBtn.style.display = 'block';
   }
 
   function confirmBayar() {
     window.location.href = "<?= base_url('menu') ?>";
+    window.location.href = "<?= base_url('pesanan') ?>";
   }
 </script>
 
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

@@ -11,8 +11,8 @@ class Menu_model extends CI_Model
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-	
-	public function get_menu_by_id($id)
+
+	public function get_detail_produk_by_id($id)
 	{
 	    $this->db->select('produk.*, kategori.nama_kategori');
 	    $this->db->from('produk');
@@ -22,6 +22,8 @@ class Menu_model extends CI_Model
 	    return $query->result_array();
 	}
 
-	
-
+	public function get_produk_by_id($id_produk)
+    {
+        return $this->db->get_where('produk', ['id_produk' => $id_produk])->row_array();
+    }
 }
