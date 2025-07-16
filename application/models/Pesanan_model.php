@@ -39,18 +39,16 @@ class Pesanan_model extends CI_Model
         $this->db->insert('detail_pesanan', $data);
     }
 
-    public function selesai($id_detail_pesanan)
+    public function status_pesanan($id_pesanan, $status)
     {
-        $this->db->set('selesai', 1);
-        $this->db->where('id_detail_pesanan', $id_detail_pesanan);
-        $this->db->update('detail_pesanan');
+        $this->db->where('id_pesanan', $id_pesanan);
+        return $this->db->update('pesanan', ['status_pesanan' => $status]);
     }
 
-    public function cancel($id)
+    public function get_pesanan_by_id($id_pesanan)
     {
-        $this->db->set('status_sewa', 'cancel');
-        $this->db->where('id_sewa', $id);
-        return $this->db->update('sewa');
+        return $this->db->get_where('pesanan', ['id_pesanan' => $id_pesanan])->row_array();
     }
+
 
 }

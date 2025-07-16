@@ -50,20 +50,11 @@
 				<div class="bg-white py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Pesanan :</h6>
 
-					<a class="collapse-item" href="<?php echo site_url('admin/sewa') ?>">
+					<a class="collapse-item" href="<?php echo site_url('admin/pesanan') ?>">
 						<i class="fas fa-layer-group"></i>
 						<span>Pesanan Baru</span>
 					</a>
 
-					<a class="collapse-item" href="<?php echo site_url('admin/sewa/sewa_active') ?>">
-						<i class="fas fa-check-circle"></i>
-						<span>Pesanan diterima</span>
-					</a>
-
-					<a class="collapse-item" href="<?php echo site_url('admin/sewa/sewa_cancel') ?>">
-						<i class="fas fa-times-circle"></i>
-						<span>History Pesanan</span>
-					</a>
 				</div>
 			</div>
 		</li>
